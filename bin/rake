@@ -1,0 +1,4 @@
+#!/usr/bin/env jruby.bat.exe
+require_relative '../config/boot'
+require 'rake'
+Rake.application.run
