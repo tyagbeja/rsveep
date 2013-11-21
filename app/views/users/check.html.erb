@@ -1,0 +1,16 @@
+<h1>Check User</h1>
+<%= form_tag "/users/verify" do %>
+<p>
+  <%= label_tag "Number" %><br>
+  <%= text_field_tag "number" %>
+</p>
+<p>
+  <%= label_tag "Code" %><br>
+  <%= text_field_tag "code" %>
+</p>
+<p>
+  <%= submit_tag "Verify" %>
+</p>
+<%end%>
+
+

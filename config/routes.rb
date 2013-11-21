@@ -6,7 +6,14 @@ Rsveep::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
   
-  resources :users
+  resources :users do
+    collection do
+      post 'verify'
+      get 'check'
+    end
+  end
+  
+  get "sms" ,to: 'sms#send_verification' ,as: :sms
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

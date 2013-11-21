@@ -42,3 +42,5 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
+# Use Twilio gem to send sms
+gem 'twilio-ruby'
