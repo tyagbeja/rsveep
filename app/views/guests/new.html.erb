@@ -1,0 +1,10 @@
+<h1>Guest list</h1>
+<%= form_tag  "/guests" do |f| %>
+<p>
+  <%= label_tag :guests %><br>
+  <%= text_area_tag :guests %>
+</p>
+<p>
+  <%= submit_tag "Save Guests" %>
+</p>
+<%end%>

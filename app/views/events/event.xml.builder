@@ -18,6 +18,6 @@ xml.rsveep :eventId => @event.eventId, :eventTitle => @event.title, :updated_at=
     xml.privacy @event.privacy
   }
   xml.eventImage @event.image
-  xml.eventHost @event.user.name ,:contactNumber=>@event.user.number
+  xml.eventHost @event.user.name ,:contactNumber=>"+#{@event.user.number}"
 end
 

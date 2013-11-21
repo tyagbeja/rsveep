@@ -20,6 +20,8 @@ Rsveep::Application.routes.draw do
     end
   end
   
+  resources :guests 
+  
   get "sms" ,to: 'sms#send_verification' ,as: :sms
 
   # Example of regular route:
