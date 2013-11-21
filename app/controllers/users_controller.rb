@@ -18,10 +18,6 @@ class UsersController < ApplicationController
     redirect_to sms_path(:number=>@user.number, :name=>@user.name)
   end
   
-  def update
-    
-  end
-  
   def verify
     @verification = Verification.find_by_number (params[:number])
     @user = User.find_by_number params[:number]
