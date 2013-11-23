@@ -20,7 +20,15 @@ Rsveep::Application.routes.draw do
     end
   end
   
-  resources :guests 
+  resources :guests do
+    collection do
+      get 'check'
+      get 'updateresponse'
+      post 'myguests'
+      post 'guestevents'
+      post 'guestresponse'
+    end
+  end 
   
   get "sms" ,to: 'sms#send_verification' ,as: :sms
 

@@ -1,0 +1,18 @@
+<h1>Update Guest Response</h1>
+<%= form_tag "/guests/guestresponse" do %>
+<p>
+  <%= label_tag "Number" %><br>
+  <%= text_field_tag "number" %>
+</p>
+<p>
+  <%= label_tag "Event Id" %><br>
+  <%= text_field_tag "event" %>
+</p>
+<p>
+  <%= label_tag "Response" %><br>
+  <%= text_field_tag "response" %>
+</p>
+<p>
+  <%= submit_tag "See Guests" %>
+</p>
+<%end%>

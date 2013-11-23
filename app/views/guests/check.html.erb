@@ -1,0 +1,25 @@
+<h1>Check Guests</h1>
+<%= form_tag "/guests/myguests" do %>
+<p>
+  <%= label_tag "Number" %><br>
+  <%= text_field_tag "number" %>
+</p>
+<p>
+  <%= label_tag "Event Id" %><br>
+  <%= text_field_tag "event" %>
+</p>
+<p>
+  <%= submit_tag "See Guests" %>
+</p>
+<%end%>
+<h1>Check Events</h1>
+<%= form_tag "/guests/guestevents" do %>
+<p>
+  <%= label_tag "Number" %><br>
+  <%= text_field_tag "number" %>
+</p>
+<p>
+  <%= submit_tag "See Events" %>
+</p>
+<%end%>
+

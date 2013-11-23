@@ -8,12 +8,18 @@ class SmsController < ApplicationController
     twilio_phone_number = get_twilio_phone_number
  
     @twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
- 
-    @twilio_client.account.sms.messages.create(
+    
+    begin
+      @twilio_client.account.sms.messages.create(
       :from => "+#{twilio_phone_number}",
       :to => "+#{@user.number}",
       :body => "Welcome #{@user.name} to RSVEEP. Here is your verification code #{code}"
-    )  
+      )
+    rescue Twilio::REST::RequestError
+      @message = 'Could not send verification'
+      render(:template => "sms/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+      return
+    end   
     
     save_or_update_ver_code @user.number, code    
     render(:template => "users/verify" , :formats => [:xml], :handlers => :builder, :layout => false)
