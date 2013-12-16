@@ -33,7 +33,7 @@ class GuestsController < ApplicationController
     guest_list_xml.xpath('//rsveep/guest/@number').each do |node|
       user = node.text
       if user != host
-        @guest = Guest.new(:event=>@event, :user=>user)
+        @guest = Guest.new(:event=>@event, :user=>user, :response=>'')
         if !@guest.save
           message = message + user + ","
         end

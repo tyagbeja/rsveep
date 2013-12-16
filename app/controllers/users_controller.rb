@@ -14,6 +14,7 @@ class UsersController < ApplicationController
       @user.save
     rescue ActiveRecord::RecordNotUnique
       @user = User.find_by params[:user].permit(:number)
+      @user.update(:gcmid => params[:user].permit(:gcmid).to_s)
     end
     redirect_to sms_path(:number=>@user.number, :name=>@user.name)
   end
@@ -33,6 +34,6 @@ class UsersController < ApplicationController
   
   private
   def user_params
-    params.require(:user).permit(:name, :number)
+    params.require(:user).permit(:name, :number, :gcmid)
   end
 end
