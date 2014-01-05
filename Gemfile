@@ -47,3 +47,6 @@ end
 
 # Use Twilio gem to send sms
 gem 'twilio-ruby'
+
+# Use to send GCM notifications  
+gem 'pushmeup'

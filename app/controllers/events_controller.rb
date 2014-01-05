@@ -17,6 +17,44 @@ class EventsController < ApplicationController
     end
   end
   
+  def update
+    reg_ids = Array.new
+    
+    @user = User.find_by_number params[:host]
+    if @user.nil?
+      @message = 'Invalid user'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+      return
+    end
+    @event = Event.find_by_eventId_and_user_id params[:eventId],@user
+    if @event.nil?
+      @message = 'Event does not exist'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+    end
+    
+    
+    if @event.update(:title => params[:title],:subtitle =>params[:subtitle], :address =>params[:address], :city =>params[:city],
+      :country =>params[:country], :dateTime=>params[:dateTime].to_time, :dressing =>params[:dressing],:image=>params[:image],
+      :latitude=>params[:latitude].to_f, :longitude=>params[:longitude].to_f, :notes =>params[:notes], :postcode =>params[:postcode],
+      :privacy=>params[:privacy], :state=>params[:state], :type =>params[:type], :venue=>params[:venue])
+    
+      @guests = Guest.where :event_id => @event.id    
+      @guests.each do |guest|
+        @invitedUser = User.find_by_number guest.user
+        if !@invitedUser.nil?
+           reg_ids <<  @invitedUser.gcmid
+        end
+      end
+
+      send_notification reg_ids,"event_invite"
+      render(:template => "events/success" , :formats => [:xml], :handlers => :builder, :layout => false)
+    else
+      @message = 'Could not update event'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+    end
+    
+  end
+  
   def create
     @user = User.find_by_number params[:host]
     if @user.nil?
@@ -72,5 +110,18 @@ class EventsController < ApplicationController
     @event.type = params[:type]
     @event.venue = params[:venue]
     return @event
+  end
+  
+  private
+  def send_notification (reg_ids, key)    
+    GCM.host = 'https://android.googleapis.com/gcm/send'
+    GCM.format = :json
+    GCM.key = "AIzaSyDiyNj9eta22S10N1CZ9zKhzsNAKIJ-j9M"
+    
+    destination = reg_ids.to_ary
+    if destination.size > 0
+      data = {:message => "test"}
+      return GCM.send_notification( destination, data, :collapse_key => key, :time_to_live => 3600, :delay_while_idle => false )
+    end    
   end
 end

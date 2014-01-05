@@ -4,5 +4,6 @@ xml.rsveep :user => @user.number do
   xml.guest {
     xml.status  :status => 'success'
   } 
+  xml.response @response.to_s
 end
 

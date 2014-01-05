@@ -14,10 +14,10 @@ xml.rsveep :eventId => @event.eventId, :eventTitle => @event.title, :updated_at=
     xml.eventPostcode @event.postcode
     xml.latitude @event.latitude
     xml.longitude @event.longitude
-    xml.notes @event.notes
+    xml.note @event.notes
     xml.privacy @event.privacy
   }
   xml.eventImage @event.image
-  xml.eventHost @event.user.name ,:contactNumber=>"+#{@event.user.number}"
+  xml.eventHost  @event.user.name ,:contactNumber=>"+#{@event.user.number}"
 end
 

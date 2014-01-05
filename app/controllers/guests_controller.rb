@@ -13,6 +13,9 @@ class GuestsController < ApplicationController
   
   def create
     message = ""
+    reg_ids = Array.new
+    @count = 0
+    request_type = params[:request_type]
     guest_list_xml = Nokogiri::XML(params[:guests])
     event_id = guest_list_xml.xpath('//rsveep/@eventId').text
     host = guest_list_xml.xpath('//rsveep/@host').text
@@ -24,11 +27,14 @@ class GuestsController < ApplicationController
     end    
     
     @event = Event.find_by_eventId_and_user_id  event_id,@user
-    if @event.nil?
+    if request_type == 'forward'
+      @event = Event.find_by_eventId event_id
+    elsif @event.nil?
       @message = 'Event does not exist'
       render(:template => "guests/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
       return
     end
+    
     
     guest_list_xml.xpath('//rsveep/guest/@number').each do |node|
       user = node.text
@@ -36,10 +42,17 @@ class GuestsController < ApplicationController
         @guest = Guest.new(:event=>@event, :user=>user, :response=>'')
         if !@guest.save
           message = message + user + ","
+        else 
+          @guest_user = User.find_by_number user
+          if !@guest_user.nil?
+            reg_ids <<  @guest_user.gcmid 
+          end 
         end
+        @count = @count + 1
       end 
     end
-    if message == ""
+    if message == "" and @count != 0
+      @response = send_notification reg_ids,"event_invite"
       render(:template => "guests/success" , :formats => [:xml], :handlers => :builder, :layout => false)
     else
       message = message + " could not be added to the guest list"
@@ -75,11 +88,12 @@ class GuestsController < ApplicationController
       return
     end
     
-    @guests = Guest.where :user => "+#{params[:number]}"
+    @guests = Guest.where :user => "#{params[:number]}"
     render(:template => "guests/guestevents" , :formats => [:xml], :handlers => :builder, :layout => false)
   end
   
   def guestresponse
+    reg_ids = Array.new
     @user = User.find_by_number params[:number]
     if @user.nil?
       @message = 'Invalid user'
@@ -94,10 +108,12 @@ class GuestsController < ApplicationController
       return
     end
     
-    @guest = Guest.find_by_event_id_and_user  @event, "+#{params[:number]}"
+    @guest = Guest.find_by_event_id_and_user  @event, "#{params[:number]}"
     
     unless @guest.nil?
       if @guest.update(:response => params[:response])
+        reg_ids <<  @event.user.gcmid
+        @response = send_notification reg_ids,"guest_response"
         render(:template => "guests/success_response" , :formats => [:xml], :handlers => :builder, :layout => false)
         return
       else
@@ -111,4 +127,16 @@ class GuestsController < ApplicationController
     end
   end
   
+  private
+  def send_notification (reg_ids, key)    
+    GCM.host = 'https://android.googleapis.com/gcm/send'
+    GCM.format = :json
+    GCM.key = "AIzaSyDiyNj9eta22S10N1CZ9zKhzsNAKIJ-j9M"
+    
+    destination = reg_ids.to_ary
+    if destination.size > 0
+      data = {:message => "test"}
+      return GCM.send_notification( destination, data, :collapse_key => key, :time_to_live => 3600, :delay_while_idle => false )
+    end    
+  end  
 end
