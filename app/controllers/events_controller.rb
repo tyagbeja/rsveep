@@ -7,6 +7,38 @@ class EventsController < ApplicationController
     
   end
   
+  def cancel
+    reg_ids = Array.new
+    @user = User.find_by_number params[:host]
+    if @user.nil?
+      @message = 'Invalid user'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+      return
+    end
+    @event = Event.find_by_eventId_and_user_id params[:eventId],@user
+    if @event.nil?
+      @message = 'Event does not exist'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+    end
+    
+    if @event.update(:status => 'cancelled')
+      @guests = Guest.where :event_id => @event.id    
+      @guests.each do |guest|
+        @invitedUser = User.find_by_number guest.user
+        if !@invitedUser.nil?
+           reg_ids <<  @invitedUser.gcmid
+        end
+      end
+
+      send_notification reg_ids,"event_invite"
+      render(:template => "events/success" , :formats => [:xml], :handlers => :builder, :layout => false)
+    else
+      @message = 'Could not update event'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+    end
+    
+  end
+  
   def find
     @event = Event.find_by_eventId params[:eventId]
     if @event.nil?

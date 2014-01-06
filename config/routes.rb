@@ -18,6 +18,7 @@ Rsveep::Application.routes.draw do
       get  'search'
       post 'find'
       post 'update'
+      post 'cancel'
     end
   end
   

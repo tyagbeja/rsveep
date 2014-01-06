@@ -19,5 +19,6 @@ xml.rsveep :eventId => @event.eventId, :eventTitle => @event.title, :updated_at=
   }
   xml.eventImage @event.image
   xml.eventHost  @event.user.name ,:contactNumber=>"+#{@event.user.number}"
+  xml.eventStatus @event.status
 end
 
