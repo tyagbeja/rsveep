@@ -7,6 +7,23 @@ class EventsController < ApplicationController
     
   end
   
+  def myevents
+    @user = User.find_by_number params[:host]
+    if @user.nil?
+      @message = 'Invalid user'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+      return
+    end
+    @events = Event.where :user_id=>@user
+    if @events.nil?
+      @message = 'You have not created an event'
+      render(:template => "events/failed" , :formats => [:xml], :handlers => :builder, :layout => false)
+    else
+      render(:template => "events/myevents" , :formats => [:xml], :handlers => :builder, :layout => false)
+    end
+    
+  end
+  
   def cancel
     reg_ids = Array.new
     @user = User.find_by_number params[:host]

@@ -19,6 +19,7 @@ Rsveep::Application.routes.draw do
       post 'find'
       post 'update'
       post 'cancel'
+      post 'myevents'
     end
   end
   

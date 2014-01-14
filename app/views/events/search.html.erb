@@ -1,10 +1,10 @@
 <h1>Search</h1>
-<%= form_tag "/events/find" do |f| %>
+<%= form_tag "/events/myevents" do |f| %>
 <p>
-  <%= label_tag :eventId %><br>
-  <%= text_field_tag :eventId %>
+  <%= label_tag :user_number %><br>
+  <%= text_field_tag :host %>
 </p>
 <p>
-  <%= submit_tag "Find Event" %>
+  <%= submit_tag "Find My Events" %>
 </p>
 <%end%>

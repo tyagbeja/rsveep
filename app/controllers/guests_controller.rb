@@ -14,11 +14,13 @@ class GuestsController < ApplicationController
   def create
     message = ""
     reg_ids = Array.new
+    @non_rsveep_users = Array.new
     @count = 0
     request_type = params[:request_type]
     guest_list_xml = Nokogiri::XML(params[:guests])
     event_id = guest_list_xml.xpath('//rsveep/@eventId').text
     host = guest_list_xml.xpath('//rsveep/@host').text
+    @sms = guest_list_xml.xpath('//rsveep/@sms').text
     @user = User.find_by_number host
     if @user.nil?
       @message = 'Invalid user'
@@ -38,6 +40,12 @@ class GuestsController < ApplicationController
     
     guest_list_xml.xpath('//rsveep/guest/@number').each do |node|
       user = node.text
+#     Return list of non rsveep user
+      @user_guest = User.find_by_number user
+      if @user_guest.nil?
+        @non_rsveep_users << user
+      end
+      
       if user != host
         @guest = Guest.new(:event=>@event, :user=>user, :response=>'')
         if !@guest.save
@@ -52,7 +60,6 @@ class GuestsController < ApplicationController
       end 
     end
     if message == "" and @count != 0
-      @response = send_notification reg_ids,"event_invite"
       render(:template => "guests/success" , :formats => [:xml], :handlers => :builder, :layout => false)
     else
       message = message + " could not be added to the guest list"
