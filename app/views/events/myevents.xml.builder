@@ -20,7 +20,7 @@ xml.rsveeps do
         xml.privacy event.privacy
       }
       xml.eventImage event.image
-      xml.eventHost  event.user.name ,:contactNumber=>"+#{event.user.number}"
+      xml.eventHost  event.user.name ,:contactNumber=>"#{event.user.number}"
       xml.eventStatus event.status
       xml.guests {
         event.guest.each do |guest|

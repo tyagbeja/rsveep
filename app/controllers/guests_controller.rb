@@ -60,6 +60,7 @@ class GuestsController < ApplicationController
       end 
     end
     if message == "" and @count != 0
+      send_notification reg_ids,"event_invite"
       render(:template => "guests/success" , :formats => [:xml], :handlers => :builder, :layout => false)
     else
       message = message + " could not be added to the guest list"
@@ -120,7 +121,7 @@ class GuestsController < ApplicationController
     unless @guest.nil?
       if @guest.update(:response => params[:response])
         reg_ids <<  @event.user.gcmid
-        @response = send_notification reg_ids,"guest_response"
+        send_notification reg_ids,"guest_response"
         render(:template => "guests/success_response" , :formats => [:xml], :handlers => :builder, :layout => false)
         return
       else
