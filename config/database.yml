@@ -16,8 +16,8 @@ development:
 test:
   adapter: postgresql
   database: rsveepdb
-  username: 
-  password: 
+  username: rsveep_test
+  password: YNoU1G4M98th4SY6
   host: rsveeptestinstance.c1gcfhlxgykl.eu-west-1.rds.amazonaws.com
   port: 5432
 

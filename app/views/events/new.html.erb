@@ -1,70 +1,72 @@
 <h1>New Event</h1>
-<%= form_tag  "/events" do |f| %>
+<%= form_for @event do |f| %>
+
+  <p>
+    <%= f.label :user %><br />
+    <%= f.text_field :user %>
+  </p>
 <p>
-  <%= label_tag :host %><br>
-  <%= text_field_tag :host %>
+  <%= f.label :title %><br>
+  <%= f.text_field :title %>
 </p>
 <p>
-  <%= label_tag :title %><br>
-  <%= text_field_tag :title %>
+  <%= f.label :subtitle %><br>
+  <%= f.text_field :subtitle %>
 </p>
 <p>
-  <%= label_tag :subtitle %><br>
-  <%= text_field_tag :subtitle %>
+  <%= f.label :venue %><br>
+  <%= f.text_field :venue %>
 </p>
 <p>
-  <%= label_tag :venue %><br>
-  <%= text_field_tag :venue %>
+  <%= f.label :address %><br>
+  <%= f.text_field :address %>
 </p>
 <p>
-  <%= label_tag :address %><br>
-  <%= text_field_tag :address %>
+  <%= f.label :city %><br>
+  <%= f.text_field :city %>
 </p>
 <p>
-  <%= label_tag :city %><br>
-  <%= text_field_tag :city %>
+  <%= f.label :state %><br>
+  <%= f.text_field :state %>
 </p>
 <p>
-  <%= label_tag :state %><br>
-  <%= text_field_tag :state %>
+  <%= f.label :country %><br>
+  <%= f.text_field :country %>
 </p>
 <p>
-  <%= label_tag :country %><br>
-  <%= text_field_tag :country %>
+  <%= f.label :postcode %><br>
+  <%= f.text_field :postcode %>
 </p>
 <p>
-  <%= label_tag :postcode %><br>
-  <%= text_field_tag :postcode %>
+  <%= f.label :longitude %><br>
+  <%= f.text_field :longitude %>
 </p>
 <p>
-  <%= label_tag :longitude %><br>
-  <%= text_field_tag :longitude %>
+  <%= f.label :latitude %><br>
+  <%= f.text_field :latitude %>
 </p>
 <p>
-  <%= label_tag :latitude %><br>
-  <%= text_field_tag :latitude %>
+  <%= f.label :dateTime %><br>
+  <%= f.text_field :dateTime %>
 </p>
 <p>
-  <%= label_tag :dateTime %><br>
-  <%= text_field_tag :dateTime %>
+  <%= f.label :dressing %><br>
+  <%= f.text_field :dressing %>
 </p>
 <p>
-  <%= label_tag :dressing %><br>
-  <%= text_field_tag :dressing %>
+  <%= f.label :notes %><br>
+  <%= f.text_field :notes %>
 </p>
 <p>
-  <%= label_tag :notes %><br>
-  <%= text_field_tag :notes %>
+  <%= f.label :privacy %><br>
+  <%= f.text_field :privacy %>
 </p>
-<p>
-  <%= label_tag :privacy %><br>
-  <%= text_field_tag :privacy %>
-</p>
-<p>
-  <%= label_tag :image %><br>
-  <%= text_field_tag :image %>
-</p>
-<p>
-  <%= submit_tag "Save Event" %>
-</p>
-<%end%>
+  <p>
+    <%= f.file_field :image %>
+  </p>
+  <p>
+    <%= f.label :remote_image_url, "or image URL" %><br />
+    <%= f.text_field :remote_image_url %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

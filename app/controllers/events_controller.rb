@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def new
-    
+    @event = Event.new
   end
   
   def search
@@ -85,7 +85,7 @@ class EventsController < ApplicationController
     if @event.update(:title => params[:title],:subtitle =>params[:subtitle], :address =>params[:address], :city =>params[:city],
       :country =>params[:country], :dateTime=>params[:dateTime].to_time, :dressing =>params[:dressing],:image=>params[:image],
       :latitude=>params[:latitude].to_f, :longitude=>params[:longitude].to_f, :notes =>params[:notes], :postcode =>params[:postcode],
-      :privacy=>params[:privacy], :state=>params[:state], :type =>params[:type], :venue=>params[:venue])
+      :privacy=>params[:privacy], :state=>params[:state], :event_type =>params[:type], :venue=>params[:venue], :endDateTime=>params[:endDateTime].to_time)
     
       @guests = Guest.where :event_id => @event.id    
       @guests.each do |guest|
@@ -156,8 +156,9 @@ class EventsController < ApplicationController
     @event.postcode = params[:postcode]
     @event.privacy = params[:privacy]
     @event.state = params[:state]
-    @event.type = params[:type]
+    @event.event_type = params[:type]
     @event.venue = params[:venue]
+    @event.endDateTime = params[:endDateTime]
     return @event
   end
   

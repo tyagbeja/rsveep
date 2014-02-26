@@ -1,8 +1,8 @@
 <h1>Search</h1>
-<%= form_tag "/events/myevents" do |f| %>
+<%= form_tag "/events/find" do |f| %>
 <p>
-  <%= label_tag :user_number %><br>
-  <%= text_field_tag :host %>
+  <%= label_tag :rsveep_code %><br>
+  <%= text_field_tag :eventId %>
 </p>
 <p>
   <%= submit_tag "Find My Events" %>

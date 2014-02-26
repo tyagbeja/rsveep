@@ -4,9 +4,9 @@ xml.rsveeps do
     xml.rsveep :eventId => event.eventId, :eventTitle => event.title, :updated_at=>event.updated_at.to_i do
       xml.event {
         xml.eventName event.subtitle
-        xml.eventType event.type
-        xml.eventDate event.dateTime.strftime("%Y-%m-%d")
-        xml.eventTime event.dateTime.strftime("%H:%M:%S")
+        xml.eventType event.event_type
+        xml.eventStartTime event.dateTime.to_i
+        xml.eventEndTime event.endDateTime.to_i
         xml.eventAttire event.dressing
         xml.eventVenue event.venue
         xml.eventAddress event.address
@@ -19,7 +19,7 @@ xml.rsveeps do
         xml.note event.notes
         xml.privacy event.privacy
       }
-      xml.eventImage event.image
+      xml.eventImage event.image_url
       xml.eventHost  event.user.name ,:contactNumber=>"#{event.user.number}"
       xml.eventStatus event.status
       xml.guests {

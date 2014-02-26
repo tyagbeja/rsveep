@@ -8,4 +8,5 @@ class Event < ActiveRecord::Base
   validates :dateTime, presence: true
   validates :privacy, presence: true
   validates_inclusion_of :status, :in => [ 'active', 'expired', 'cancelled'],:message => "%{value} is not a valid status" 
+  mount_uploader :image, ImageUploader
 end

@@ -50,3 +50,12 @@ gem 'twilio-ruby'
 
 # Use to send GCM notifications  
 gem 'pushmeup'
+
+# Use to upload images to server
+gem "carrierwave"
+
+# Use to resize uploaded images
+gem 'rmagick'
+
+#Use to store in Amazon S3
+gem "fog"
