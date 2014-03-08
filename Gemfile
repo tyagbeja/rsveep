@@ -48,14 +48,24 @@ end
 # Use Twilio gem to send sms
 gem 'twilio-ruby'
 
-# Use to send GCM notifications  
+# Use Pushmeup to send GCM notifications  
 gem 'pushmeup'
 
-# Use to upload images to server
+# Use Carrierwave to upload images to server
 gem "carrierwave"
 
-# Use to resize uploaded images
+# Use Rmagick to resize uploaded images
 gem 'rmagick'
 
-#Use to store in Amazon S3
+#Use Fog to store in Amazon S3
 gem "fog"
+
+#Use bootstrap to style webpages
+gem 'bootstrap-sass'
+group :development do
+  gem 'rails_layout'
+end
+
+group :assets do
+  gem 'bootstrap-sass'
+end
