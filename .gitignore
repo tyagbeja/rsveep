@@ -18,4 +18,5 @@
 /tmp
 /nbproject/private//.elasticbeanstalk/
 /public/uploads
-/public/images
+/public/images/uploads
+/config/database.yml
